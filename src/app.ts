@@ -1,8 +1,10 @@
 import express, { Express } from 'express';
+import Logger from 'pino';
 
 import MongoDB from './mongodb';
 import { attachRoutes } from './routes';
 
+const logger = Logger();
 const DEFAULT_MONGO_CONNECTION_STRING = 'mongodb://127.0.0.1:27071';
 
 export async function setupApp(): Promise<Express> {
@@ -14,12 +16,9 @@ export async function setupApp(): Promise<Express> {
   const app = attachRoutes(express());
 
   async function handleSignal(event: NodeJS.Signals) {
-    // TODO: remove console.log in favour for something like log4js.
-    console.log(`Received signal ${event}. Starting to teardown connections.`);
+    logger.warn(`Received signal ${event}. Starting to teardown connections.`);
 
     await mongo.shutdown();
-
-    console.log('Successfully closed MongoDB connection.');
   }
 
   process.on('SIGINT', handleSignal);

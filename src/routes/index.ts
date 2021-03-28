@@ -1,7 +1,14 @@
-import { Express } from 'express';
+import type { Express } from 'express';
+
+import contextLogger from '../middleware/context-logger';
+import removeHeaders from '../middleware/remove-headers';
+
 import healthCheck from './health-check';
 
 export function attachRoutes(app: Express): Express {
+  app.use(removeHeaders);
+  app.use(contextLogger);
+
   app.use('/health-check', healthCheck);
 
   app.get('/', (req, res) => {

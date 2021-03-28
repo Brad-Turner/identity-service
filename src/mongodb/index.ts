@@ -1,10 +1,14 @@
 import mongoose, { Connection, ConnectionOptions } from 'mongoose';
 
+import Logger from 'pino';
+
 export default class Mongo {
   static connection: Connection | null = null;
+  protected logger = Logger({ name: 'mongo-logger' });
 
   constructor(private connectionStr: string, protected options?: ConnectionOptions) {
     if (!options) {
+      this.logger.debug('Using default connection options.');
       this.options = {
         useCreateIndex: true,
         useNewUrlParser: true,
@@ -16,10 +20,10 @@ export default class Mongo {
   async startup(): Promise<Connection> {
     if (Mongo.connection) return Mongo.connection;
 
-    console.log('Connecting to MongoDB:', this.connectionStr);
-    Mongo.connection = await mongoose.createConnection(this.connectionStr, this.options);
+    this.logger.info('Attempting to established connection...');
 
-    console.log('Successfully connected to MongoDB!!!');
+    Mongo.connection = await mongoose.createConnection(this.connectionStr, this.options);
+    this.logger.info('Established connection to Mongo.');
 
     // TODO: Attach models here...
 
@@ -28,8 +32,12 @@ export default class Mongo {
 
   async shutdown(): Promise<void> {
     if (Mongo.connection) {
+      this.logger.info('Terminating connection...');
+
       await Mongo.connection.close();
       Mongo.connection = null;
+
+      this.logger.info('Terminated connection to Mongo.');
     }
   }
 

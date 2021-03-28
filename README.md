@@ -9,10 +9,10 @@ Technologies currently used in this project include;
 - Mongoose (MongoDB)
 - Docker (Dockerfile and docker-compose)
 - Jest (Testing)
+- Pino (Logging)
 
 ### Todos
 
-- Replace `console.log` statements with a production-grade logging library.
 - Add support for clustering in `src/index.ts` file.
 - Refine the safe shutdown procedures.
 - Inside the Jest test suite, add a check for `docker-compose` to verify it is ready before test execution.

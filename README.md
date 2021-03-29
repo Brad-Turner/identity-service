@@ -11,6 +11,19 @@ Technologies currently used in this project include;
 - Jest (Testing)
 - Pino (Logging)
 
+## Getting Started
+
+```sh
+npm ci
+cp .env.sample .env
+npm run docker-up
+
+# Open http://localhost:8080
+
+npm run docker-down
+npm test
+```
+
 ### Todos
 
 - Add support for clustering in `src/index.ts` file.

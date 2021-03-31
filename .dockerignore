@@ -2,10 +2,12 @@ node_modules/
 dist/
 test/
 scripts/
+.github/
 
 Dockerfile
 .dockerignore
 
 .gitignore
+.env.sample
 jest.config.ts
 *.md

@@ -7,9 +7,9 @@ import healthCheck from './health-check';
 
 export function attachRoutes(app: Express): Express {
   app.use(removeHeaders);
-  app.use(contextLogger);
-
   app.use('/health-check', healthCheck);
+
+  app.use(contextLogger);
 
   app.get('/', (req, res) => {
     res.json({ test: 'This is a test' });

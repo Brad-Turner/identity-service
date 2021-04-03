@@ -1,17 +1,14 @@
 import { Router } from 'express';
 
-import Mongo from '../mongodb';
-
 const router = Router();
 
 router.get('/', (req, res) => {
-  const dbStatus = Mongo.healthCheck();
+  // const dbStatus = Mongo.healthCheck();
 
   const healthcheck = {
     uptime: process.uptime(),
-    message: dbStatus === 'connected' ? 'Healthy' : 'Unhealthy', // TODO: find a better solution for this
-    timestamp: Date.now(),
-    dbStatus
+    message: 'Healthy',
+    timestamp: Date.now()
   };
 
   try {

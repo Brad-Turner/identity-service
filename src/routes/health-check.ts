@@ -1,21 +1,26 @@
 import { Router } from 'express';
 
+import DB from '../db';
+
 const router = Router();
 
-router.get('/', (req, res) => {
-  // const dbStatus = Mongo.healthCheck();
-
-  const healthcheck = {
+function generateHealthReport(status: 'Healthy' | 'Unhealthy') {
+  return {
+    status,
     uptime: process.uptime(),
-    message: 'Healthy',
-    timestamp: Date.now()
+    timestamp: new Date().toISOString()
   };
+}
 
+router.get('/', async (req, res) => {
   try {
-    res.send(healthcheck);
+    const dbStatus = await DB.healthCheck();
+
+    const healthReport = { ...generateHealthReport('Healthy'), dbStatus };
+
+    res.send(healthReport);
   } catch (err) {
-    healthcheck.message = err;
-    res.status(503).send();
+    res.status(503).send({ ...generateHealthReport('Unhealthy'), message: err });
   }
 });
 

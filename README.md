@@ -6,7 +6,7 @@ Technologies currently used in this project include;
 
 - Typescript
 - Express (HTTP server)
-- Mongoose (MongoDB)
+- Pg (PostgreSQL DB)
 - Docker (Dockerfile and docker-compose)
 - Jest (Testing)
 - Pino (Logging)

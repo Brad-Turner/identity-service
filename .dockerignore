@@ -1,8 +1,9 @@
-node_modules/
-dist/
-test/
-scripts/
 .github/
+dist/
+migrations/
+node_modules/
+scripts/
+test/
 
 Dockerfile
 .dockerignore

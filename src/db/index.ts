@@ -6,7 +6,7 @@ export default class DB {
   static pool: Pool | null = null;
 
   static connect(config?: PoolConfig) {
-    DB.pool = new Pool({ ssl: true, ...config });
+    DB.pool = new Pool({ ssl: { rejectUnauthorized: false }, ...config });
     DB.pool.on('error', (err) => {
       console.error(err);
     });

@@ -7,6 +7,9 @@ export default class DB {
 
   static connect(config?: PoolConfig) {
     DB.pool = new Pool(config);
+    DB.pool.on('error', (err) => {
+      console.error(err);
+    });
   }
 
   static async disconnect(): Promise<void> {

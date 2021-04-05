@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 
     res.send(healthReport);
   } catch (err) {
-    res.status(503).send({ ...generateHealthReport('Unhealthy'), message: err });
+    res.status(503).send({ ...generateHealthReport('Unhealthy'), message: err.message, error: err });
   }
 });
 

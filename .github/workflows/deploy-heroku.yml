@@ -19,3 +19,4 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}'
           healthcheck: 'https://scalable-web-app.herokuapp.com/health-check'
           usedocker: true
+          delay: 30 # seconds

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/index.js",
-    "start-dev": "nodemon -r dotenv/config --exec './node_modules/.bin/ts-node' src/index.ts | pino-pretty -c -t",
+    "start-dev": "nodemon | pino-pretty -c -t",
     "test": "jest",
     "build": "tsc",
     "docker-build": "docker build -f Dockerfile . -t bt-test",
@@ -28,6 +28,7 @@
     "express-pino-logger": "^6.0.0",
     "pg": "^8.5.1",
     "pino": "^6.11.2",
+    "source-map-support": "^0.5.19",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -37,7 +38,7 @@
     "@types/node": "^14.14.37",
     "@types/pg": "^7.14.11",
     "@types/pino": "^6.3.6",
-    "@types/uuid": "^8.3.0",
+    "@types/uuid": "^8.3.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.23.0",
     "jest": "^26.6.3",

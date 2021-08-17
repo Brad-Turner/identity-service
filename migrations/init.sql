@@ -1,42 +1,52 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE TYPE user_role AS ENUM ('user', 'developer');
+CREATE TYPE tenant_type AS ENUM ('organisation', 'consumer');
 
-CREATE TABLE public.tenants (
-  id uuid DEFAULT uuid_generate_v4 (),
-  name varchar NOT NULL UNIQUE,
-  PRIMARY KEY (id)
+CREATE OR REPLACE FUNCTION create_tenant_tables() 
+RETURNS trigger AS $$
+  BEGIN
+    EXECUTE format('
+      CREATE SCHEMA "%s"
+        CREATE TABLE applications (
+          id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+          name varchar NOT NULL,
+          redirect_uri varchar NOT NULL,
+          is_public boolean NOT NULL DEFAULT false,
+          scope varchar
+        )
+    ', NEW.id);
+    
+    RETURN NEW;
+  END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TABLE tenants (
+  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+  name varchar NOT NULL,
+  domain varchar NOT NULL UNIQUE
 );
 
-CREATE TABLE public.users (
-  id uuid DEFAULT uuid_generate_v4 (),
-  tenant_id uuid NOT NULL,
-  name varchar NOT NULL UNIQUE,
-  PRIMARY KEY (id),
-  CONSTRAINT fk_tenant
-    FOREIGN KEY(tenant_id) 
-    REFERENCES public.tenants(id)
+CREATE TRIGGER tenant_trigger AFTER INSERT 
+ON public.tenants 
+FOR EACH ROW 
+EXECUTE PROCEDURE create_tenant_tables();
+
+CREATE TABLE users (
+  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+  name varchar NOT NULL
 );
+
+INSERT INTO tenants(name, domain)
+VALUES ('Test Tenant', 'test');
+
+-- CREATE TABLE user_application_associations (
+--   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+--   user_id uuid REFERENCES users(id),
+--   application_id uuid REFERENCES applications(id)
+-- );
 
 -- Pre populate some test data
-INSERT INTO public.tenants (id, name)
-VALUES ('0e995960-7b05-421b-9b4b-de36dc1edcee', 'Test Company');
 
-INSERT INTO public.users(tenant_id, name)
-VALUES ('0e995960-7b05-421b-9b4b-de36dc1edcee', 'Test User');
-
-CREATE SCHEMA "0e995960-7b05-421b-9b4b-de36dc1edcee";
-CREATE TABLE "0e995960-7b05-421b-9b4b-de36dc1edcee".books (
-  id uuid DEFAULT uuid_generate_v4 (),
-  title varchar NOT NULL,
-  author_last_name varchar NOT NULL,
-  author_first_name varchar NOT NULL,
-  rating NUMERIC,
-  PRIMARY KEY(id),
-  CONSTRAINT rating_1_to_5 CHECK (rating is NULL OR rating >= 1 AND rating <= 5),
-  CONSTRAINT author_title_unique UNIQUE (author_last_name, title)
-);
-
-INSERT INTO "0e995960-7b05-421b-9b4b-de36dc1edcee".books (title, author_last_name, author_first_name)
-VALUES 
-  ('The Ugly Duckling', 'Anderson', 'Hans Christian'),
-  ('The Very Hungry Caterpillar', 'Carle', 'Eric')
-;
+-- <domain>/<tenant>/oauth/v2.0/authorize
+-- client_id
+-- 

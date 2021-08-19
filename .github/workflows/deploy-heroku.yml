@@ -17,6 +17,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: 'scalable-web-app'
           heroku_email: ${{secrets.HEROKU_EMAIL}}'
-          healthcheck: 'https://scalable-web-app.herokuapp.com/health-check'
+          healthcheck: 'https://scalable-web-app.herokuapp.com/health'
           usedocker: true
           delay: 30 # seconds

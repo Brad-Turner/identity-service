@@ -8,9 +8,9 @@ import tenantRouter from './v1';
 export function attachRoutes(app: Express): Express {
   app.use(express.json());
   app.use(removeHeaders());
-  app.use(initialiseLogging());
 
   app.use('/health', healthCheck);
+  app.use(initialiseLogging());
 
   app.get('/', (req, res) => {
     res.json({ test: 'This is a test' });

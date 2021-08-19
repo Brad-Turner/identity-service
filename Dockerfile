@@ -17,7 +17,7 @@ FROM node:14-alpine AS production
 ENV NODE_ENV=production
 ENV appPath=/usr/src/app
 
-RUN apk add wget
+RUN apk add curl
 
 WORKDIR $appPath
 
@@ -28,5 +28,5 @@ USER node
 
 # RUN du -sh * | sort -n -r
 EXPOSE 8080
-HEALTHCHECK --interval=30s --timeout=5s CMD wget --spider -S 'http://localhost:8080/health' 2>&1 | grep -q '200 OK'
+HEALTHCHECK --interval=20s --timeout=10s --start-period=10s CMD curl --fail --silent "http://localhost:8080/health" || exit 1
 ENTRYPOINT ["node", "--require", "dotenv/config", "--require", "source-map-support/register", "dist/index.js"]

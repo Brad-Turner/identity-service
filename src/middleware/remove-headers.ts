@@ -1,6 +1,8 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { RequestHandler } from 'express';
 
-export default function (req: Request, res: Response, next: NextFunction) {
-  res.removeHeader('x-powered-by');
-  next();
+export function removeHeaders(): RequestHandler {
+  return (req, res, next) => {
+    res.removeHeader('x-powered-by');
+    next();
+  };
 }

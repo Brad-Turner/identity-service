@@ -14,7 +14,9 @@ function handleLogLevels(res: ServerResponse, err: Error) {
   return 'info';
 }
 
-export default Logger({
-  genReqId: generateCorrelationId,
-  customLogLevel: handleLogLevels
-});
+export const initialiseLogging = () => {
+  return Logger({
+    genReqId: generateCorrelationId,
+    customLogLevel: handleLogLevels
+  });
+};

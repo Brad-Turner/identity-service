@@ -33,18 +33,18 @@ function get_health_state {
 }
 
 
-echo "Wait for container '$container_id' to be healthy for max $timeout seconds..."
-for i in `seq ${timeout}`; do
-    get_health_state
-    state=$?
-    if [ ${state} -eq 0 ]; then
-      echo "Container is healthy after ${i} seconds."
+# echo "Wait for container '$container_id' to be healthy for max $timeout seconds..."
+# for i in `seq ${timeout}`; do
+#     get_health_state
+#     state=$?
+#     if [ ${state} -eq 0 ]; then
+#       echo "Container is healthy after ${i} seconds."
 
-      # Follow the web service logs and pipe the output to pretty print it
+#       # Follow the web service logs and pipe the output to pretty print it
       docker logs --follow $container_id | $pino_pretty_path -c -t
-    fi
-    sleep 1
-done
+#     fi
+#     sleep 1
+# done
 
-echo "Timeout exceeded. Health status returned: $(docker inspect -f '{{ .State.Health.Status }}' ${container_id})"
-exit 1
+# echo "Timeout exceeded. Health status returned: $(docker inspect -f '{{ .State.Health.Status }}' ${container_id})"
+# exit 1

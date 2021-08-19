@@ -1,4 +1,4 @@
-# Scalable web application
+# OAuth Service Provider
 
 An example project for building a well formed typescript/node tech stack with scalability and maintainability in mind.
 
@@ -29,5 +29,4 @@ npm test
 - Add support for clustering in `src/index.ts` file.
 - Refine the safe shutdown procedures.
 - Inside the Jest test suite, add a check for `docker-compose` to verify it is ready before test execution.
-- Create an example mongoose model and add supporting express routes for data manipulation.
 - Consolidate environment variables to one file.

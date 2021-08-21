@@ -1,14 +1,11 @@
-import express, { Express } from 'express';
-import { initialiseLogging, handleErrors, removeHeaders, validateTenantDomain } from '../middleware';
+import { Express } from 'express';
+import { initialiseLogging, handleErrors, validateTenantDomain } from '../middleware';
 
 import healthCheck from './health-check';
 
 import tenantRouter from './v1';
 
-export function attachRoutes(app: Express): Express {
-  app.use(express.json());
-  app.use(removeHeaders());
-
+export function attachRoutes(app: Express): void {
   app.use('/health', healthCheck);
   app.use(initialiseLogging());
 
@@ -19,6 +16,4 @@ export function attachRoutes(app: Express): Express {
   app.use('/:tenantDomain/api/v1', validateTenantDomain, tenantRouter);
 
   app.use(handleErrors());
-
-  return app;
 }

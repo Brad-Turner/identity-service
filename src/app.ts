@@ -4,15 +4,20 @@ import Logger from 'pino';
 import DB from './db';
 import EnvironmentHandler from './environment-handler';
 import { attachRoutes } from './routes';
+import { setupSecurity } from './security';
 
 const logger = Logger();
-const DEFAULT_DATABASE_URL = 'postgresql://127.0.0.1:5432';
 
 export async function setupApp(): Promise<Express> {
   const { postgres } = new EnvironmentHandler().environment;
   DB.connect(postgres); // Initialises pooling
 
-  const app = attachRoutes(express());
+  const app = express();
+
+  app.use(express.json({ limit: '1kb', strict: true }));
+
+  setupSecurity(app);
+  attachRoutes(app);
 
   async function handleSignal(event: NodeJS.Signals) {
     logger.warn(`Received signal ${event}. Starting to teardown connections.`);
@@ -22,6 +27,7 @@ export async function setupApp(): Promise<Express> {
 
   process.on('SIGINT', handleSignal);
   process.on('SIGTERM', handleSignal);
+  process.on('uncaughtException', handleSignal);
 
   return app;
 }

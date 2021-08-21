@@ -33,7 +33,10 @@ EXECUTE PROCEDURE create_tenant_tables();
 
 CREATE TABLE users (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  name varchar NOT NULL
+  first_name varchar NOT NULL,
+  last_name varchar NOT NULL,
+  email varchar NOT NULL,
+  nickname varchar
 );
 
 INSERT INTO tenants(name, domain)

@@ -35,7 +35,8 @@ CREATE TABLE users (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   first_name varchar NOT NULL,
   last_name varchar NOT NULL,
-  email varchar NOT NULL,
+  email varchar NOT NULL UNIQUE,
+  passwordHash varchar NOT NULL,
   nickname varchar
 );
 

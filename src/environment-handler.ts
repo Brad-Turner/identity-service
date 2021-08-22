@@ -9,7 +9,7 @@ export default class EnvironmentHandler {
 
   constructor() {
     if (!process.env.DATABASE_URL) {
-      const required = ['POSTGRES_USER', 'POSTGRES_PASSWORD', 'POSTGRES_DB'];
+      const required = ['POSTGRES_PASSWORD', 'POSTGRES_DB'];
       const missing = required.reduce<string[]>((arr, key) => {
         if (process.env[key] === undefined) arr.push(key);
         return arr;
@@ -18,11 +18,11 @@ export default class EnvironmentHandler {
       if (missing.length) throw new Error(`Missing required environment variables: ${missing}.`);
     }
 
-    const user = process.env.POSTGRES_USER as string;
     const password = process.env.POSTGRES_PASSWORD as string;
     const database = process.env.POSTGRES_DB as string;
     const ssl = process.env.DB_SSL ? { rejectUnauthorized: false } : false;
 
+    const user = process.env.POSTGRES_USER ?? 'postgres';
     const host = process.env.POSTGRES_HOST ?? 'localhost';
     const port = parseInt(process.env.POSTGRES_PORT ?? '5432');
     const connectionString = process.env.DATABASE_URL ?? `postgres://${user}:${password}@${host}:${port}/${database}`;

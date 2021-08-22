@@ -7,6 +7,35 @@ export interface Application {
   isPublic: boolean;
 }
 
+export interface User {
+  id?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+export interface UserWithPassword extends User {
+  password: string;
+}
+
+export interface EncryptedUser extends User {
+  passwordHash: string;
+}
+
+interface OpenIdConnectClient {
+  applicationType: 'web';
+  redirectUris: string[];
+  name: string;
+  logoUri: string;
+  contacts: string[];
+  requestUris: string[];
+}
+
+interface RegistrationResponse {
+  clientId: string;
+  clientSecret: string;
+}
+
 export interface Tenant {
   id?: string;
   name: string;

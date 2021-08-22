@@ -1,6 +1,7 @@
 import { Express } from 'express';
 
 import helmet from 'helmet';
+import { encryptUser, validatePassword } from './encryption';
 
 export function setupSecurity(app: Express) {
   app.use(
@@ -12,3 +13,5 @@ export function setupSecurity(app: Express) {
     })
   );
 }
+
+export { encryptUser, validatePassword };

@@ -20,8 +20,8 @@ services:
       - POSTGRES_DB
     ports:
       - '5432:5432'
-    volumes:
-      - './migrations:/docker-entrypoint-initdb.d/'
+    # volumes:
+    #   - './migrations:/docker-entrypoint-initdb.d/'
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $POSTGRES_USER -d $POSTGRES_DB']
       interval: 10s

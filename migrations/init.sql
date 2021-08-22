@@ -20,18 +20,21 @@ RETURNS trigger AS $$
   END;
 $$ LANGUAGE 'plpgsql';
 
-CREATE TABLE tenants (
+CREATE TABLE IF NOT EXISTS tenants (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   name varchar NOT NULL,
   domain varchar NOT NULL UNIQUE
 );
+
+DROP TRIGGER IF EXISTS tenant_trigger
+ON public.tenants;
 
 CREATE TRIGGER tenant_trigger AFTER INSERT 
 ON public.tenants 
 FOR EACH ROW 
 EXECUTE PROCEDURE create_tenant_tables();
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
   first_name varchar NOT NULL,
   last_name varchar NOT NULL,
@@ -40,8 +43,8 @@ CREATE TABLE users (
   nickname varchar
 );
 
-INSERT INTO tenants(name, domain)
-VALUES ('Test Tenant', 'test');
+-- INSERT INTO tenants(name, domain)
+-- VALUES ('Test Tenant', 'test');
 
 -- CREATE TABLE user_application_associations (
 --   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,

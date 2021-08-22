@@ -3,7 +3,7 @@ import { UserRepository } from '../repositories';
 import { encryptUser } from '../security';
 
 export default class UserService {
-  static async create(req: Request, res: Response, next: NextFunction) {
+  static async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { firstName, lastName, email, password } = req.body;
 
     try {

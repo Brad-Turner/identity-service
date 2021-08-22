@@ -25,9 +25,8 @@ async function main() {
   await pgClient.query(file.toString());
   console.log('Successfully initialised DB. Closing connection...');
 
-
   await pgClient.end();
-  console.log('Connection closed. SUCCESS.')
+  console.log('Connection closed. SUCCESS.');
 }
 
 main();

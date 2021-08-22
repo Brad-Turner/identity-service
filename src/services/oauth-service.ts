@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ApplicationRepository } from '../repositories';
 
 export default class OAuthService {
-  static async authorise(req: Request, res: Response, next: NextFunction) {
+  static async authorise(req: Request, res: Response, next: NextFunction): Promise<void> {
     let redirectUri;
     const clientId = req.query.client_id;
     const responseType = req.query.response_type;

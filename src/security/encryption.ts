@@ -8,7 +8,7 @@ const WORK_FACTOR = 12; // 2 ^ WORK_FACTOR rounds for salt calculation
 export async function encryptUser(user: UserWithPassword): Promise<EncryptedUser> {
   const { password, ...other } = user;
 
-  const passwordHash = await bcrypt.hash(user.password, WORK_FACTOR);
+  const passwordHash = await bcrypt.hash(password, WORK_FACTOR);
 
   return { ...other, passwordHash };
 }

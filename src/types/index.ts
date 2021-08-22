@@ -45,3 +45,10 @@ export interface Tenant {
 export interface QueryOptions {
   tenantId: TenantId;
 }
+
+export interface HealthStatus {
+  checkedAt: Date;
+  totalCount?: number;
+  idleCount?: number;
+  waitingCount?: number;
+}

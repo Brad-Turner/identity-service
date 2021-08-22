@@ -48,7 +48,7 @@ describe('Application Repository', () => {
     const app = await ApplicationRepository.create(options, { tenantId });
 
     if (!app) {
-      fail('Application should be created. Received: undefined.');
+      throw new Error('Application should be created. Received: undefined.');
     }
 
     expect(app.id).toBeTruthy();

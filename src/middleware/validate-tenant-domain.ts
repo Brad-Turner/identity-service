@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { TenantRepository } from '../repositories';
 import { InvalidTenantDomainError } from '../errors';
 
-export async function validateTenantDomain(req: Request, res: Response, next: NextFunction) {
+export async function validateTenantDomain(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     if (!req.params.tenantDomain) {
       throw new InvalidTenantDomainError('not defined');

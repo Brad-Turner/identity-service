@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { ApplicationRepository } from '../repositories';
 
 export default class ApplicationsService {
-  static async listAll(req: Request, res: Response, next: NextFunction) {
+  static async listAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const applications = await ApplicationRepository.getAll({ tenantId: `"${res.locals.tenant.id}"` });
       res.send({ applications });
@@ -11,7 +11,7 @@ export default class ApplicationsService {
     }
   }
 
-  static async get(req: Request, res: Response, next: NextFunction) {
+  static async get(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const application = await ApplicationRepository.getById(req.params.applicationId, {
         tenantId: `"${res.locals.tenant.id}"`
@@ -27,7 +27,7 @@ export default class ApplicationsService {
     }
   }
 
-  static async create(req: Request, res: Response, next: NextFunction) {
+  static async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     // TODO: validate req body
     const { name, redirectUri, isPublic = false } = req.body;
 

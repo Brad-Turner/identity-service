@@ -1,3 +1,4 @@
+import { RequestHandler } from 'express';
 import Logger, { ReqId } from 'express-pino-logger';
 import { v4 } from 'uuid';
 
@@ -14,7 +15,7 @@ function handleLogLevels(res: ServerResponse, err: Error) {
   return 'info';
 }
 
-export const initialiseLogging = () => {
+export const initialiseLogging: RequestHandler = () => {
   return Logger({
     genReqId: generateCorrelationId,
     customLogLevel: handleLogLevels

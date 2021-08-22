@@ -36,7 +36,7 @@ export default class EnvironmentHandler {
     this._environment = env;
   }
 
-  get environment() {
+  get environment(): Environment {
     return this._environment;
   }
 }

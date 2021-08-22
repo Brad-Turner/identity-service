@@ -1,0 +1,25 @@
+{
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:jest/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+
+  "env": {
+    "node": true
+  },
+
+  "plugins": [
+    "jest"
+  ],
+  
+  "overrides": [
+    {
+      "files": "*.ts",
+      "parser": "@typescript-eslint/parser",
+      "extends": ["plugin:@typescript-eslint/recommended"],
+      "plugins": [ "@typescript-eslint" ]
+    }
+  ],
+
+  "ignorePatterns": ["**/node_modules/", "**/dist/"]
+}

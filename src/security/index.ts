@@ -3,7 +3,7 @@ import { Express } from 'express';
 import helmet from 'helmet';
 import { encryptUser, validatePassword } from './encryption';
 
-export function setupSecurity(app: Express) {
+export function setupSecurity(app: Express): void {
   app.use(
     helmet({
       expectCt: false,

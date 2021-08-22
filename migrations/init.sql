@@ -1,6 +1,4 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-CREATE TYPE user_role AS ENUM ('user', 'developer');
-CREATE TYPE tenant_type AS ENUM ('organisation', 'consumer');
 
 CREATE OR REPLACE FUNCTION create_tenant_tables() 
 RETURNS trigger AS $$

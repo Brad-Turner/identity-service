@@ -40,4 +40,26 @@ export class UserRepository {
 
     return response.rows.length === 0 ? undefined : response.rows[0];
   }
+
+  static async getByEmail(email: string): Promise<Required<EncryptedUser> | undefined> {
+    const response = await DB.pool?.query<Required<EncryptedUser>>(
+      `
+        SELECT
+          id,
+          first_name as "firstName",
+          last_name as "lastName",
+          email,
+          password_hash as "passwordHash"
+        FROM users
+        WHERE email = $1;
+      `,
+      [email]
+    );
+
+    if (!response) {
+      throw new Error();
+    }
+
+    return response.rows.length === 0 ? undefined : response.rows[0];
+  }
 }

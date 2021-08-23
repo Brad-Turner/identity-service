@@ -9,6 +9,7 @@ export interface Application {
 
 export interface User {
   id?: string;
+  active?: boolean;
   firstName: string;
   lastName: string;
   email: string;

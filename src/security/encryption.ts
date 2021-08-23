@@ -13,6 +13,6 @@ export async function encryptUser(user: UserWithPassword): Promise<EncryptedUser
   return { ...other, passwordHash };
 }
 
-export async function validatePassword(plaintext: string, passwordHash: string, salt: string): Promise<boolean> {
-  return bcrypt.compare(plaintext, `${salt}${passwordHash}`);
+export async function validatePassword(plaintext: string, passwordHash: string): Promise<boolean> {
+  return bcrypt.compare(plaintext, passwordHash);
 }

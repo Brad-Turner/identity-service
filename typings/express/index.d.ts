@@ -1,7 +1,9 @@
-import 'express';
+import { EncryptedUser } from '../../src/types';
 
-declare module 'express-serve-static-core' {
-  export interface User {
-    id: string;
+declare global {
+  namespace Express {
+    export interface User extends EncryptedUser {
+      id: string;
+    }
   }
 }

@@ -7,6 +7,7 @@ COPY package*.json ./
 RUN npm ci
 
 COPY src/ src/
+COPY typings/ typings/
 RUN npm run build
 RUN npm prune --production
 

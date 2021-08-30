@@ -2,6 +2,10 @@ import { PoolConfig } from 'pg';
 
 interface Environment {
   postgres: PoolConfig;
+  smtp: {
+    domain: string;
+    key: string;
+  };
 }
 
 export default class EnvironmentHandler {
@@ -9,7 +13,7 @@ export default class EnvironmentHandler {
 
   constructor() {
     if (!process.env.DATABASE_URL) {
-      const required = ['POSTGRES_PASSWORD'];
+      const required = ['POSTGRES_PASSWORD', 'MAILGUN_DOMAIN', 'MAILGUN_KEY'];
       const missing = required.reduce<string[]>((arr, key) => {
         if (process.env[key] === undefined) arr.push(key);
         return arr;
@@ -28,7 +32,11 @@ export default class EnvironmentHandler {
     const connectionString = process.env.DATABASE_URL ?? `postgres://${user}:${password}@${host}:${port}/${database}`;
 
     this._environment = {
-      postgres: { user, password, database, host, port, ssl, connectionString }
+      postgres: { user, password, database, host, port, ssl, connectionString },
+      smtp: {
+        domain: process.env.MAILGUN_DOMAIN as string,
+        key: process.env.MAILGUN_KEY as string
+      }
     };
   }
 

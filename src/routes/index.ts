@@ -1,9 +1,8 @@
 import { Express } from 'express';
-import passport from 'passport';
 import { initialiseLogging, handleErrors, validateTenantDomain } from '../middleware';
 
 import healthCheck from './health-check';
-
+import authRouter from './auth';
 import tenantRouter from './v1';
 
 export function attachRoutes(app: Express): void {
@@ -14,8 +13,7 @@ export function attachRoutes(app: Express): void {
     res.json({ test: 'This is a test' });
   });
 
-  app.post('/login', passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/' }));
-
+  app.use('/auth', authRouter);
   app.use('/:tenantDomain/api/v1', validateTenantDomain, tenantRouter);
 
   app.use(handleErrors());

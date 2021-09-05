@@ -6,7 +6,8 @@ export class UserRepository {
     const response = await DB.pool?.query<Required<User>>(
       `
         INSERT INTO users(first_name, last_name, email, password_hash)
-        VALUES ($1, $2, $3, $4, $5)
+        VALUES ($1, $2, $3, $4)
+        ON CONFLICT DO NOTHING
         RETURNING id, first_name as "firstName", last_name as "lastName", email;
       `,
       [user.firstName, user.lastName, user.email, user.passwordHash]
@@ -27,7 +28,9 @@ export class UserRepository {
           first_name as "firstName",
           last_name as "lastName",
           email,
-          password_hash as "passwordHash"
+          password_hash as "passwordHash",
+          active,
+          email_verified as "emailVerified"
         FROM users
         WHERE id = $1;
       `,
@@ -49,7 +52,9 @@ export class UserRepository {
           first_name as "firstName",
           last_name as "lastName",
           email,
-          password_hash as "passwordHash"
+          password_hash as "passwordHash",
+          active,
+          email_verified as "emailVerified"
         FROM users
         WHERE email = $1;
       `,
@@ -61,5 +66,10 @@ export class UserRepository {
     }
 
     return response.rows.length === 0 ? undefined : response.rows[0];
+  }
+
+  static async setIsVerified(userId: string): Promise<boolean> {
+    const response = await DB.pool?.query('UPDATE users SET email_verified = true WHERE id = $1', [userId]);
+    return Boolean(response);
   }
 }

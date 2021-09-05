@@ -34,7 +34,8 @@ EXECUTE PROCEDURE create_tenant_tables();
 
 CREATE TABLE IF NOT EXISTS users (
   id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
-  active boolean NOT NULL DEFAULT false,
+  active boolean NOT NULL DEFAULT true,
+  email_verified boolean NOT NULL DEFAULT false,
   first_name varchar NOT NULL,
   last_name varchar NOT NULL,
   email varchar NOT NULL UNIQUE,

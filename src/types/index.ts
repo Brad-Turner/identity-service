@@ -9,10 +9,12 @@ export interface Application {
 
 export interface User {
   id?: string;
-  active?: boolean;
   firstName: string;
   lastName: string;
   email: string;
+
+  active?: boolean;
+  emailVerified?: boolean;
 }
 
 export interface UserWithPassword extends User {

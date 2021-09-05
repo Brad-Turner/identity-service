@@ -8,7 +8,7 @@ export function handleErrors(): ErrorRequestHandler {
       return res.status(err.statusCode).send({ message: err.message });
     }
 
-    req.log.warn(err, 'Unhandled error');
+    req.log.error(err, 'Unhandled error');
 
     next(err);
   };

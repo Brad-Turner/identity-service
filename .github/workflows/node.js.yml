@@ -72,3 +72,4 @@ jobs:
           POSTGRES_DB: postgres
           MAILGUN_DOMAIN: test
           MAILGUN_KEY: unrequired
+          JWT_SIGNING_KEY: unrequired

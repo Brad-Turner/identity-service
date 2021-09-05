@@ -16,11 +16,17 @@ export const localStrategy = new LocalStrategy(
 
       if (!user || !isAuthenticated) {
         req.log.warn(`Unauthenticated login attempt for email: ${email}`);
-        return done(new InvalidUserError());
+        throw new InvalidUserError();
       }
 
       if (!user.active) {
-        req.log.warn({ id: user.id, email: user.email }, 'Inactive account login attempt.');
+        req.log.warn(`Inactive user login attempt for email: ${email}`);
+        throw new InvalidUserError();
+      }
+
+      if (!user.emailVerified) {
+        req.log.warn(`Unverified account login attempt for email: ${email}`);
+        throw new InvalidUserError();
       }
 
       done(undefined, user);

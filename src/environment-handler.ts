@@ -6,6 +6,7 @@ interface Environment {
     domain: string;
     key: string;
   };
+  jwtKey: string;
 }
 
 export default class EnvironmentHandler {
@@ -13,7 +14,7 @@ export default class EnvironmentHandler {
 
   constructor() {
     if (!process.env.DATABASE_URL) {
-      const required = ['POSTGRES_PASSWORD', 'MAILGUN_DOMAIN', 'MAILGUN_KEY'];
+      const required = ['POSTGRES_PASSWORD', 'MAILGUN_DOMAIN', 'MAILGUN_KEY', 'JWT_SIGNING_KEY'];
       const missing = required.reduce<string[]>((arr, key) => {
         if (process.env[key] === undefined) arr.push(key);
         return arr;
@@ -36,7 +37,8 @@ export default class EnvironmentHandler {
       smtp: {
         domain: process.env.MAILGUN_DOMAIN as string,
         key: process.env.MAILGUN_KEY as string
-      }
+      },
+      jwtKey: process.env.JWT_SIGNING_KEY as string
     };
   }
 
